@@ -98,7 +98,7 @@ func VerifySignatureWithArtifactDigest(sigContent SignatureContent, verification
 func getSignatureVerifier(verificationContent VerificationContent, tm root.TrustedMaterial) (signature.Verifier, error) {
 	if leafCert := verificationContent.Certificate(); leafCert != nil {
 		// TODO: Inspect certificate's SignatureAlgorithm to determine hash function
-		return signature.LoadVerifier(leafCert.PublicKey, crypto.SHA256)
+		return signature.LoadVerifier(leafCert.PublicKey, crypto.SHA384)
 	} else if pk := verificationContent.PublicKey(); pk != nil {
 		return tm.PublicKeyVerifier(pk.Hint())
 	}

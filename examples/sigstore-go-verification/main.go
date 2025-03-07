@@ -31,6 +31,7 @@ import (
 	"github.com/theupdateframework/go-tuf/v2/metadata/fetcher"
 
 	"github.com/sigstore/sigstore-go/pkg/bundle"
+	"github.com/sigstore/sigstore-go/pkg/fulcio/certificate"
 	"github.com/sigstore/sigstore-go/pkg/root"
 	"github.com/sigstore/sigstore-go/pkg/tuf"
 	"github.com/sigstore/sigstore-go/pkg/util"
@@ -116,9 +117,10 @@ func run() error {
 		verifierConfig = append(verifierConfig, verify.WithTransparencyLog(1))
 	}
 
-	certID, err := verify.NewShortCertificateIdentity(*expectedOIDIssuer, *expectedOIDIssuerRegex, *expectedSAN, *expectedSANRegex)
-	if err != nil {
-		return err
+	certID := verify.CertificateIdentity{
+		SubjectAlternativeName: verify.SubjectAlternativeNameMatcher{SubjectAlternativeName: *expectedSAN},
+		Issuer:                 verify.IssuerMatcher{},
+		Extensions:             certificate.Extensions{},
 	}
 	identityPolicies = append(identityPolicies, verify.WithCertificateIdentity(certID))
 

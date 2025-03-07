@@ -93,3 +93,17 @@ Verification successful!
 ```
 
 You can also specify a TUF root with something like `-tufRootURL tuf-repo-cdn.sigstore.dev`.
+
+
+# Release attestation verification
+
+```
+$ ./sigstore-go-verification \
+  -artifact-digest 6899fe21dd80873893dd1a3bf3bdd4d33b1b2338 \
+  -artifact-digest-algorithm sha1 \
+  -requireTlog=false \
+  -requireCTlog=false \
+  -trustedrootJSONpath ../trusted-root-github-staging.json \
+  -expectedSAN https://staging-dotcom.releases.github.com \
+  ../release.json
+```
